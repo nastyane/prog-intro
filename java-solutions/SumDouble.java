@@ -12,11 +12,11 @@ public class SumDouble {
     private static double parse(String arg) {
         int leftInd = 0;
         double result = 0;
-        for (int i = 0; i < arg.length(); i++) {
-            char now = arg.charAt(i);
+        for (int i = 0; i <= arg.length(); i++) {
+            char now = i != arg.length() ? arg.charAt(i) : ' ';
             char last = i > 0 ? arg.charAt(i - 1) : ' ';
             if (Character.isWhitespace(now)) {
-                if (!Character.isWhitespace(last)) {
+                if (!Character.isWhitespace((last))) {
                     String number = arg.substring(leftInd, i);
                     result += Double.parseDouble(number);
                 }
@@ -27,12 +27,6 @@ public class SumDouble {
                 }
             }
         }
-        // :NOTE: дублирование кода (излишний код)
-        if (!Character.isWhitespace(arg.charAt(arg.length() - 1))) {
-            String ch = arg.substring(leftInd);
-            result += Double.parseDouble(ch);
-        }
-        // :NOTE: лишний cast
         return result;
     }
 }
