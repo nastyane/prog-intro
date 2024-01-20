@@ -5,13 +5,18 @@ import java.util.*;
 public class WordStatCount {
     public static void main(String[] args) throws Exception {
         ArrayList<String> words = new ArrayList<>();
+        // :NOTE: открыть файл на запись когда это надо
+        // :NOTE: использовать enum utf-8
+        // :NOTE: написать пользователю более человечитаемую ошибку о том, что не удалось открыть, файл на чтение или запись
         BufferedWriter out = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream(args[1]), "UTF-8")
         );
+        // :NOTE: использовать try with resources https://www.baeldung.com/java-try-with-resources
         try {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(new FileInputStream(args[0]), "UTF-8")
             );
+            // :NOTE: сделать count ArrayList или words примитивным массивом
             int[] count = new int[2];
             int first = 0;
             int second = 0;
@@ -28,14 +33,17 @@ public class WordStatCount {
                             }
                             if (i == str.length() - 1 || !cheakSymbol(str.charAt(i + 1))) {
                                 second = ++i;
+                                // :NOTE: файл целиком загружается в оперативную память, надо сразу считать их количество
                                 words.add(str.substring(first, second).toLowerCase());
                                 first = 0;
                             }
                         }
                     }
                 }
+                // :NOTE: здесь уже можно закрыть файл на чтение
                 count = Arrays.copyOf(count, words.size());
                 int temp = 0;
+                // :NOTE: O(n^2) не надо так
                 for (int i = 0; i < words.size() - 1; i++) {
                     for (int j = i + 1; j < words.size(); j++) {
                         if ((words.get(i).equals(words.get(j)))) {
@@ -46,6 +54,7 @@ public class WordStatCount {
                         }
                     }
                 }
+                // :NOTE: O(n^2) не надо так
                 for (int i = 0; i < words.size() - 1; i++) {
                     for (int j = 0; j < words.size() - i - 1; j++) {
                         if (count[j] > count[j + 1]) {
@@ -73,13 +82,14 @@ public class WordStatCount {
                     }
                 }
             } catch (IOException e) {
+                // :NOTE: написать пользователю сообщение, что не удалось записать данные
                 System.out.println(e.getMessage());
             } finally {
                 System.out.println("File close");
                 out.close();
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Not found" + e.getMessage());
+            System.out.println("Not found " + e.getMessage());
         }
     }
 
