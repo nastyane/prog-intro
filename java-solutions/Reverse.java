@@ -6,10 +6,10 @@ import java.util.Scanner;
 public class Reverse {
     public static void main(String[] args) {
         List<List<Integer>> numbers = readInput();
-        System.err.println("*".repeat(10));
         printOutput(numbers);
 
     }
+
 
     static List<List<Integer>> readInput() {
         List<List<Integer>> numbers = new ArrayList<>();
@@ -23,7 +23,6 @@ public class Reverse {
                 int number = lineScanner.nextInt();
                 lineNumbers.add(number);
             }
-            System.err.println(lineNumbers);
             numbers.add(lineNumbers);
         }
         Collections.reverse(numbers);
